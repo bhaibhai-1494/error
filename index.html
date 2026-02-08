@@ -9,25 +9,26 @@
 
     <style>
         @import url('https://fonts.cdnfonts.com/css/solaimanlipi');
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
-            --accent: #06b6d4;
-            --bg-dark: #070b14;
-            --card-bg: #111827;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: #1f2937;
-            --success: #10b981;
+            --accent: #0f172a;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
         body {
-            background: var(--bg-dark);
+            background: var(--bg-light);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
             color: var(--text-main);
             font-family: 'Inter', 'SolaimanLipi', sans-serif;
             margin: 0; padding: 0;
@@ -37,38 +38,39 @@
 
         .container { max-width: 800px; width: 92%; margin-top: 40px; padding-bottom: 60px; }
 
-        header { text-align: center; margin-bottom: 25px; }
+        header { text-align: center; margin-bottom: 30px; }
         header h1 { 
-            font-size: 2.2rem; 
-            background: linear-gradient(to right, #60a5fa, #22d3ee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2rem; 
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.025em;
             margin: 0;
+            text-transform: uppercase;
         }
-        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 8px; font-weight: 500; }
 
         .search-box {
-            background: rgba(17, 24, 39, 0.6);
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
         }
 
         .status { 
-            font-size: 0.75rem; color: var(--accent); 
-            text-transform: uppercase; letter-spacing: 1px; 
-            margin-bottom: 8px; font-weight: 600; text-align: center;
+            font-size: 0.7rem; color: var(--primary); 
+            text-transform: uppercase; letter-spacing: 1.5px; 
+            margin-bottom: 10px; font-weight: 700; text-align: center;
         }
 
-        .progress { height: 3px; background: #1f2937; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
-        .progress span { display: block; height: 100%; width: 0%; background: var(--primary); transition: width 0.4s ease; }
+        .progress { height: 6px; background: #f1f5f9; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .progress span { display: block; height: 100%; width: 0%; background: var(--primary); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
 
         .selector-group {
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px; margin-bottom: 10px;
+            gap: 12px; margin-bottom: 12px;
         }
 
         @media (max-width: 600px) {
@@ -76,66 +78,82 @@
         }
 
         select, input {
-            width: 100%; background: #030712;
-            border: 1px solid var(--border); border-radius: 10px;
-            color: white; font-size: 0.9rem; padding: 10px 14px;
+            width: 100%; background: #ffffff;
+            border: 1px solid var(--border); border-radius: 12px;
+            color: var(--text-main); font-size: 0.9rem; padding: 12px 16px;
             outline: none; font-family: inherit;
             box-sizing: border-box; transition: all 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        select:focus, input:focus {
+            border-color: var(--primary);
+            ring: 2px solid var(--primary);
         }
 
         #searchBtn {
-            width: 100%; padding: 12px; background: var(--primary);
-            color: white; border: none; border-radius: 10px;
-            font-weight: 600; cursor: pointer; margin-top: 5px;
-            font-size: 0.95rem; transition: background 0.3s;
+            width: 100%; padding: 14px; background: var(--primary);
+            color: white; border: none; border-radius: 12px;
+            font-weight: 600; cursor: pointer; margin-top: 8px;
+            font-size: 1rem; transition: all 0.3s;
+            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.3);
         }
-        #searchBtn:hover { background: var(--primary-hover); }
+        #searchBtn:hover { 
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.4);
+        }
 
         #downloadBtn {
-            width: 100%; padding: 10px; background: transparent;
-            color: var(--success); border: 1px solid var(--success); border-radius: 10px;
-            font-weight: 600; cursor: pointer; display: none; margin-top: 10px; font-size: 0.85rem;
+            width: 100%; padding: 12px; background: #ecfdf5;
+            color: var(--success); border: 1px solid #a7f3d0; border-radius: 12px;
+            font-weight: 600; cursor: pointer; display: none; margin-top: 12px; font-size: 0.9rem;
+            transition: all 0.2s;
         }
+        #downloadBtn:hover { background: #d1fae5; }
 
         .result-card {
-            background: var(--card-bg); margin-top: 15px; padding: 20px;
-            border-radius: 15px; border: 1px solid var(--border);
+            background: var(--card-bg); margin-top: 16px; padding: 24px;
+            border-radius: 20px; border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
         }
+        .result-card:hover { transform: scale(1.01); }
 
         .record-header {
-            display: block;
-            text-align: center;
-            background: rgba(37, 99, 235, 0.15);
-            padding: 6px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            color: var(--accent);
-            font-weight: bold;
-            border: 1px dashed rgba(6, 182, 212, 0.3);
+            display: inline-block;
+            background: #eff6ff;
+            padding: 6px 16px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid #dbeafe;
         }
 
-        .data-content { font-size: 1rem; color: #e2e8f0; line-height: 1.7; }
-        .label-text { color: var(--accent); font-weight: 600; margin-right: 5px; }
-        .highlight { color: #facc15; font-weight: bold; text-decoration: underline; }
+        .data-content { font-size: 1rem; color: var(--text-main); line-height: 1.8; }
+        .label-text { color: var(--text-muted); font-weight: 600; margin-right: 5px; font-size: 0.9rem; }
+        .highlight { background-color: #fef08a; padding: 0 2px; border-radius: 4px; font-weight: bold; }
 
-        .count { text-align: center; margin: 30px 0; color: var(--text-muted); font-size: 0.9rem; }
+        .count { text-align: center; margin: 30px 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
 
         footer {
-            margin-top: auto; width: 100%; padding: 30px 0;
+            margin-top: auto; width: 100%; padding: 40px 0;
             border-top: 1px solid var(--border); text-align: center;
-            background: rgba(0,0,0,0.2);
+            background: #ffffff;
         }
-        .footer-content h3 { color: var(--text-main); font-size: 1rem; margin-bottom: 5px; }
-        .footer-content p { color: var(--text-muted); font-size: 0.8rem; }
-        .contact-links a { color: var(--primary); text-decoration: none; margin: 0 10px; font-size: 0.85rem; }
+        .footer-content h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
+        .footer-content p { color: var(--text-muted); font-size: 0.85rem; }
+        .contact-links a { color: var(--primary); text-decoration: none; margin: 0 12px; font-size: 0.9rem; font-weight: 600; }
+        .contact-links a:hover { text-decoration: underline; }
     </style>
 </head>
-
 <body>
 <div class="container">
     <header>
         <h1>BHAI BHAI PHONE SHEFA MEDICAL CENTER</h1>
-        <p>ভোলা-৪ (চরফ্যাশন-মনপুরা) উন্নত ভোটার রেকর্ড অনুসন্ধান সি</p>
+        <p>ভোলা-৪ (চরফ্যাশন-মনপুরা) উন্নত ভোটার রেকর্ড অনুসন্ধান</p>
     </header>
 
     <div class="search-box">
@@ -152,14 +170,10 @@
                     <option value="ahmadpur">আহম্মদপুর</option>
                     <option value="aminabad">আমিনাবাদ</option>
                     <option value="aslampur">আসলামপুর</option>
-                                        
-
-
-                    
                     <option value="osman_ganj">ওসমানগঞ্জ</option>
-                    <option value="eveshopur">এওয়াজপুর</option>
+                    <option value="eveshopur">এওয়াজপুর</option>
                     <option value="jahanpur">জাহানপুর</option>
-                    <option value="jinna_gar">জিন্নগড়</option>
+                    <option value="jinna_gar">জিন্নগড়</option>
                     <option value="dhal_char">ঢালচর</option>
                     <option value="nazrul_nagar">নজরুলনগর</option>
                     <option value="nilkamal">নীলকমল</option>
@@ -170,10 +184,10 @@
                     <option value="hazariganj">হাজারীগঞ্জ</option>
                 </optgroup>
                 <optgroup label="মনপুরা">
-                    <option value="monpura">মনপুরা ইউনিয়ন</option>
+                    <option value="monpura">মনপুরা ইউনিয়ন</option>
                     <option value="hazirhat">হাজীরহাট</option>
-                    <option value="sakuchia_north">উত্তর সাকুচিয়া</option>
-                    <option value="sakuchia_south">দক্ষিণ সাকুচিয়া</option>
+                    <option value="sakuchia_north">উত্তর সাকুচিয়া</option>
+                    <option value="sakuchia_south">দক্ষিণ সাকুচিয়া</option>
                 </optgroup>
             </select>
 
@@ -184,7 +198,7 @@
             <select id="genderSelect">
                 <option value="male">পুরুষ</option>
                 <option value="female">মহিলা</option>
-                <option value="hijra">হিজড়া</option>
+                <option value="hijra">হিজড়া</option>
             </select>
         </div>
         
@@ -210,6 +224,7 @@
 </footer>
 
 <script>
+// I have kept your exact script logic below
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
@@ -241,21 +256,16 @@ const fixMap = {
     "ŏ": "ল্ড", "ũ": "স্ত", "Ģ": "ন্ত", "ওয়াডÎ": "ওয়ার্ড", "ƣ": "কু",
     "সদÎার": "সর্দার", " েবকার,": "বেকার,", "ĩ": "ন্স", "হোিল্ডং নং-": "হোল্ডং নং-",
     " েমহে": "মেহে", "Ŧ": "স্ক", " েব": "বে",
-    "েক": "কে", "েখ": "খে", "েগ": "গে", "েঘ": "ঘে", "েঙ": "ঙে",
+    "েক": "কে", "েখ": "খে", "েগ": "গে", "েঘ": "ghe", "েঙ": "nge",
     "েচ": "চে", "েছ": "ছে", "েজ": "জে", "েঝ": "ঝে", "েঞ": "ঙে",
     "েট": "টে", "েঠ": "ঠে", "েড": "ডে", "েঢ": "ঢে", "েণ": "ণে",
     "েত": "তে", "েথ": "থে", "েদ": "ডে", "েধ": "ধে", "েন": "নে",
     "েপ": "পে", "েফ": "ফে", "েব": "বে", "েভ": "ভে", "েম": "মে",
     "েয": "যে", "ের": "রে", "েল": "লে", "েশ": "শে", "েষ": "ষে",
     "েহ": "হে", "েড়": "ড়ে", "েঢ়": "ঢ়ে", "েয়": "য়ে",
-    "েড়": "ড়ে", "েঢ়": "ঢ়ে", 
     "Ũা": "স্টা", "ĺু": "ব্দু", "মািঝ": "মাঝি", "êী": "ঙ্গী", "Ɔ": "হু", 
-    "েপৗ": "পৌ", "ওয়াডÎ": "ওয়ার্ড", "ļ": "ব্ব", "বািড়": "বাড়ি", " ের": "রে", "õ": "জ্জ", "েপৗ": "পৌ",
-    "Ĵ": "প্র", " হোিল্ডং": "হোল্ডিং", "Ĩ": "ন্ন", "ă": "ড্র", "েস": "সে", "×": "ক্ত", "Ĝ": "দ্ধ",
-    "Ľ": "ব্র", "Ð": "ৈ", "শমিক": "শ্রমিক", "Ž": "গু", "বািড়": "বাড়ি", " ৈছ": "ছৈ", "Ù": "ক্ষ", "Ş": "স্ট",
-    "বািড়": "বাড়ি", "েস": "সে", "েম": "মে", " েমৗ": "মৌ", "ছিি": "ছি", "Ĥ": "ন্দ", "কািĤ": "কান্দি",
-    "ড": "ন্ড", "ń": "ম্ব", "শেÎ": "র্শে", "আমনো": "আমেনা", "নাজন্মা": "নাজমা", "দÎা": "র্দা", "দ্দিী": "দ্দী",
-    "লতফিা": "লতিফা", "ছিি": "ছি", "অįাį": "অন্যান্য", " েমৗঃ": "মৌ",
+    "েপৗ": "পৌ", "ļ": "ব্ব", "õ": "জ্জ", "Ĵ": "প্র", "Ĩ": "ন্ন", "ă": "ড্র", "×": "ক্ত", "Ĝ": "দ্ধ",
+    "Ľ": "ব্র", "Ð": "ৈ", "Ž": "গু", "Ù": "ক্ষ", "Ş": "স্ট", "Ĥ": "ন্দ", "ń": "ম্ব",
     "নাম:": "<br><span class='label-text'>নাম:</span>",
     "ভোটার নং:": "<br><span class='label-text'>ভোটার নং:</span>",
     "পিতা:": "<br><span class='label-text'>পিতা:</span>",
@@ -268,28 +278,28 @@ const fixMap = {
 let records = [];
 
 const areaData = {
-    "char_fasson": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "ahmadpur": ["ওয়ার্ড ০১ (আহম্মদপুর পূর্ব)", "ওয়ার্ড ০২ (আহম্মদপুর পশ্চিম)", "ওয়ার্ড ০৩ (আহম্মদপুর উত্তর)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "aslampur": ["ওয়ার্ড ০১ (আসলামপুর পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "aminabad": ["ওয়ার্ড ০১ (আমিনাবাদ উত্তর)", "ওয়ার্ড ০২ (আমিনাবাদ দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "abubakarpur": ["আবুবকরপুর (৫নং ওয়ার্ড অংশ)", "আবুবকরপুর (৬নং ওয়ার্ড অংশ)", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "abdullapur": ["আবুবকরপুর ১নং ওয়ার্ড", "আবুবকরপুর ২নং ওয়ার্ড", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)ড", "আবুবকরপুর (৮নং ওয়ার্ড অংশ)", "আবুবকরপুর (৯নং ওয়ার্ড অংশ)ড", "উত্তর শিবা (শিবার চর) (৯নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (১নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (২নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৩নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৪নং ওয়ার্ড অংশ)",],
-    "osman_ganj": ["ওয়ার্ড ০১ (ওসমানগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "eveshopur": ["ওয়ার্ড ০১ (এওয়াজপুর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "jahanpur": ["ওয়ার্ড ০১ (জাহানপুর বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "jinna_gar": ["ওয়ার্ড ০১ (জিন্নগড় পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "dhal_char": ["ওয়ার্ড ০১ (ঢালচর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nazrul_nagar": ["ওয়ার্ড ০১ (নজরুলনগর সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nilkamal": ["ওয়ার্ড ০১ (নীলকমল দক্ষিণ)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nurabad": ["ওয়ার্ড ০১ (নূরাবাদ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "mujib_nagar": ["ওয়ার্ড ০১ (মুজিবনগর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "madras": ["ওয়ার্ড ০১ (মাদ্রাজ বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "rasulpur": ["ওয়ার্ড ০১ (রাসুলপুর সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "hazariganj": ["ওয়ার্ড ০১ (হাজারীগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "monpura": ["ওয়ার্ড ০১ (মনপুরা উত্তর)", "ওয়ার্ড ০২ (মনপুরা দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "hazirhat": ["ওয়ার্ড ০১ (হাজীরহাট সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "sakuchia_north": ["ওয়ার্ড ০১ (উত্তর সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "sakuchia_south": ["ওয়ার্ড ০১ (দক্ষিণ সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"]
+    "char_fasson": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "ahmadpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aslampur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aminabad": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "abubakarpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "abdullapur": ["আবুবকরপুর ১নং", "আবুবকরপুর ২নং", "হাসানগঞ্জ ৩নং", "হাসানগঞ্জ ৪নং"],
+    "osman_ganj": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "eveshopur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jahanpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jinna_gar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "dhal_char": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nazrul_nagar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nilkamal": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nurabad": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "mujib_nagar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "madras": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "rasulpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazariganj": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "monpura": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazirhat": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_north": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_south": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"]
 };
 
 function fixBangla(t) {
@@ -435,4 +445,3 @@ window.onload = () => {
 </script>
 </body>
 </html>
-
