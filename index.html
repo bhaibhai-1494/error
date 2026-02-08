@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Scan Pro | Bhola 4 Record Finder</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/solaimanlipi');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent: #0284c7;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+
+        body {
+            background: var(--bg-light);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Inter', 'SolaimanLipi', sans-serif;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 800px; width: 92%; margin-top: 40px; padding-bottom: 60px; }
+
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { 
+            font-size: 2.2rem; 
+            color: #0f172a;
+            margin: 0;
+            font-weight: 800;
+        }
+        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+
+        .search-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .status { 
+            font-size: 0.75rem; color: var(--primary); 
+            text-transform: uppercase; letter-spacing: 1px; 
+            margin-bottom: 8px; font-weight: 700; text-align: center;
+        }
+
+        .progress { height: 4px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
+        .progress span { display: block; height: 100%; width: 0%; background: var(--primary); transition: width 0.4s ease; }
+
+        .selector-group {
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px; margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .selector-group { grid-template-columns: 1fr; }
+        }
+
+        select, input {
+            width: 100%; background: #ffffff;
+            border: 1px solid var(--border); border-radius: 10px;
+            color: var(--text-main); font-size: 0.9rem; padding: 10px 14px;
+            outline: none; font-family: inherit;
+            box-sizing: border-box; transition: all 0.2s;
+        }
+        
+        select:focus, input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        #searchBtn {
+            width: 100%; padding: 12px; background: var(--primary);
+            color: white; border: none; border-radius: 10px;
+            font-weight: 600; cursor: pointer; margin-top: 5px;
+            font-size: 0.95rem; transition: background 0.3s;
+        }
+        #searchBtn:hover { background: var(--primary-hover); }
+
+        #downloadBtn {
+            width: 100%; padding: 10px; background: transparent;
+            color: var(--success); border: 1px solid var(--success); border-radius: 10px;
+            font-weight: 600; cursor: pointer; display: none; margin-top: 10px; font-size: 0.85rem;
+        }
+        #downloadBtn:hover { background: rgba(16, 185, 129, 0.05); }
+
+        .result-card {
+            background: var(--card-bg); margin-top: 15px; padding: 20px;
+            border-radius: 15px; border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .record-header {
+            display: block;
+            text-align: center;
+            background: #f1f5f9;
+            padding: 6px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-weight: bold;
+            border: 1px solid var(--border);
+        }
+
+        .data-content { font-size: 1rem; color: #334155; line-height: 1.7; }
+        .label-text { color: #64748b; font-weight: 600; margin-right: 5px; }
+        .highlight { color: #b45309; background-color: #fef08a; padding: 0 2px; font-weight: bold; border-radius: 2px; }
+
+        .count { text-align: center; margin: 30px 0; color: var(--text-muted); font-size: 0.9rem; }
+
+        footer {
+            margin-top: auto; width: 100%; padding: 30px 0;
+            border-top: 1px solid var(--border); text-align: center;
+            background: #ffffff;
+        }
+        .footer-content h3 { color: var(--text-main); font-size: 1rem; margin-bottom: 5px; }
+        .footer-content p { color: var(--text-muted); font-size: 0.8rem; }
+        .contact-links a { color: var(--primary); text-decoration: none; margin: 0 10px; font-size: 0.85rem; }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <h1>ভাই ভাই ফোন সেফা মেডিকেল সেন্টার</h1>
+        <p>ভোলা-৪ (চরফ্যাশন-মনপুরা) উন্নত ভোটার রেকর্ড অনুসন্ধান সি</p>
+    </header>
+
+    <div class="search-box">
+        <div id="status" class="status">System Standby</div>
+        <div class="progress"><span id="bar"></span></div>
+        
+        <div class="selector-group">
+            <select id="unionSelect">
+                <option value="">ওয়ার্ড/ইউনিয়ন সিলেক্ট করুন</option>
+                <optgroup label="চর ফ্যাশন">
+                    <option value="char_fasson">চর ফ্যাশন পৌরসভা</option>
+                    <option value="abdullapur">আবদুল্লাপুর</option>
+                    <option value="abubakarpur">আবুবকরপুর</option>
+                    <option value="ahmadpur">আহম্মদপুর</option>
+                    <option value="aminabad">আমিনাবাদ</option>
+                    <option value="aslampur">আসলামপুর</option>
+                    <option value="osman_ganj">ওসমানগঞ্জ</option>
+                    <option value="eveshopur">এওয়াজপুর</option>
+                    <option value="jahanpur">জাহানপুর</option>
+                    <option value="jinna_gar">জিন্নগড়</option>
+                    <option value="dhal_char">ঢালচর</option>
+                    <option value="nazrul_nagar">নজরুলনগর</option>
+                    <option value="nilkamal">নীলকমল</option>
+                    <option value="nurabad">নূরাবাদ</option>
+                    <option value="mujib_nagar">মুজিবনগর</option>
+                    <option value="madras">মাদ্রাজ</option>
+                    <option value="rasulpur">রাসুলপুর</option>
+                    <option value="hazariganj">হাজারীগঞ্জ</option>
+                </optgroup>
+                <optgroup label="মনপুরা">
+                    <option value="monpura">মনপুরা ইউনিয়ন</option>
+                    <option value="hazirhat">হাজীরহাট</option>
+                    <option value="sakuchia_north">উত্তর সাকুচিয়া</option>
+                    <option value="sakuchia_south">দক্ষিণ সাকুচিয়া</option>
+                </optgroup>
+            </select>
+
+            <select id="wardSelect">
+                <option value="">এলাকা সিলেক্ট করুন</option>
+            </select>
+
+            <select id="genderSelect">
+                <option value="male">পুরুষ</option>
+                <option value="female">মহিলা</option>
+                <option value="hijra">হিজড়া</option>
+            </select>
+        </div>
+        
+        <input id="searchInput" placeholder="খুঁজুন..." autocomplete="off">
+        <button id="searchBtn">অনুসন্ধান</button>
+        <button id="downloadBtn">ফলাফল ডাউনলোড (.txt)</button>
+        <div id="errorBox"></div>
+    </div>
+
+    <div id="results"></div>
+    <div id="count" class="count"></div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <h3>Bhai Bhai Scan Pro</h3>
+        <p>Created by MD. RAHNAN | Specialized Record Finder</p>
+        <div class="contact-links">
+            <a href="mailto:bhaibhai1494@gmail.com">Email Support</a>
+            <a href="https://wa.me/qr/M6MQ5PRJECBDD1">WhatsApp</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+const e2b = {"0":"০","1":"১","2":"২","3":"৩","4":"৪","5":"৫","6":"৬","7":"৭","8":"৮","9":"৯"};
+const b2e = {"০":"0","১":"1","২":"2","৩":"3","৪":"4","৫":"5","৬":"6","৭":"7","৮":"8","৯":"9"};
+const toBn = s => s.replace(/[0-9]/g, d => e2b[d]);
+const toEn = s => s.replace(/[০-৯]/g, d => b2e[d]);
+
+const fixMap = {
+    "িক":"কি","িখ":"খি","িগ":"গি","িঘ":"ঘি","িচ":"চি","িছ":"ছি","িজ":"জি","িট":"টি","িঠ":"ঠি","িড":"ডি","িণ":"ণি","িত":"তি","িথ":"থি","িদ":"দি","িন":"নি","িপ":"পি","িফ":"ফি","িব":"বি","িভ":"ভি","িম":"মি","ির":"রি","িল":"লি","িশ":"শি","িষ":"ষি","িস":"সি","িহ":"হি","িড়":"ড়ি","িয়":"য়ি",
+    "েক":"কে","েখ":"খে","েগ":"গে","েত":"তে","েন":"নে","েপ":"পে","েব":"বে","েম":"মে","ের":"রে","েল":"লে","েশ":"শে","েস":"সে",
+    "োক":"কো","োগ":"গো","োচ":"চো","োত":"তো","োদ":"দো","োন":"নো","োপ":"পো","োব":"বো","োম":"মো","োর":"রো","োল":"লো","ৌশ":"শৌ",
+    "Ïমাঃ":"মোঃ","Ïবগম":"বেগম","Ïভাটার নং":"ভোটার নং","আ×ার":"আক্তার","জĥ তািরখ":"জন্ম তারিখ","ę":"দ","Ɓ":"রু","Ň":"ম্ম","ছাĔ/ছাĔ":"ছাত্র/ছাত্রী","আ×ার": "আক্তার","িপতা":"পিতা","িঠকানা":"ঠিকানা","জĥ তািরখ":"জন্ম তারিখ","চর ফËাশন": "চর ফ্যাশন","Ï":"ি","চর ফ্যাশন,": "চর ফ্যাশন, ভোলা।",
+    "Řিমক": "শ্রমিক", "বËবসা": "ব্যবসা", "Ïবসরকারী চাƣরী": "বেসরকারী চাকুরী","ভলোা।": "ভোলা।","s": "নু","Ůলু": "স্কুল","Ů": "স্ক"," িবিব": "বিবি", "বািড়": "বাড়ি","ঠকিানা": "ঠিকানা","ƀফয়িা": "সুফিয়া","ƀ": "সু","ƃ": "দু","হিাসেন": "হোসেন",
+    "ĥ": "ম", "Ë": "্য", "Ř": "শ", "ē": "ত", "ę": "দ", " িপশা:": "পেশা:", "Ïবসরকারী চাƣরী": "বেসরকারী চাকুরী","মিýল": "মঞ্জিল",
+    " িবসরকারী চাƣরী": "বেসরকারী চাকুরী", "পাটÎ": "পার্ট", " িরাড": "রোড", "Ō": "ল্ল", "Ƅ": "শু", "Ñ": "ক্ক", "উতর": "উত্তর",
+    "Ï": "ে", " েভালা": " ", " েপশা:": "পেশা:", "ė": "দ্দি",
+    "েকা": "কো", "েখা": "খো", "েগা": "গো", "েঘা": "ঘো", "েচা": "চো", "েছা": "ছো", "েজা": "জো", "েঝা": "ঝো",
+    "েটা": "টো", "েঠা": "ঠো", "েডা": "ডো", "েঢা": "ঢো", "েণা": "ণো", "েতা": "তো", "েথা": "থো", "েদা": "দো",
+    "েধা": "ধো", "েনা": "নো", "েপা": "পো", "েফা": "ফো", "েবা": "বো", "েভা": "ভো", "েমা": "মো", "েযা": "যো",
+    "েরা": "রো", "েলা": "লো", "েশা": "শো", "েষা": "ষো", "েসা": "সো", "েহা": "হো", "েড়া": "ড়ো", "েঢ়া": "ঢ়ো", "েয়া": "য়ো",
+    "েশ্র": "শ্রে", "েপ্র": "প্রে", "েব্র": "ব্রে", "েত্র": "ত্রে", 
+    "েক্র": "ক্রে", "েগ্র": "গ্রে", "েদ্র": "দ্রে", "েধ্র": "ধ্রে",
+    "েক্ল": "ক্লে", "েপ্ল": "প্লে", "েস্লা": "স্লে", 
+    "েক্ট": "ক্টে", "েস্ট": "স্টে", "েন্ত": "ন্তে", "েন্ন": "ন্নে",
+    "েল্ল": "ল্লে", "েশ্চ": "শ্চে", "েক্স": "ক্সে",
+    "েক্ষ": "ক্ষে",
+    "পশো:": "পেশা:", "ছাত্রীী": "ছাত্রী", "বািড়": "বাড়ি", "জম": "জন্ম",
+    "ŏ": "ল্ড", "ũ": "স্ত", "Ģ": "ন্ত", "ওয়াডÎ": "ওয়ার্ড", "ƣ": "কু",
+    "সদÎার": "সর্দার", " েবকার,": "বেকার,", "ĩ": "ন্স", "হোিল্ডং নং-": "হোল্ডং নং-",
+    " েমহে": "মেহে", "Ŧ": "স্ক", " েব": "বে",
+    "েক": "কে", "েখ": "খে", "েগ": "গে", "েঘ": "ঘে", "েঙ": "ঙে",
+    "েচ": "চে", "েছ": "ছে", "েজ": "জে", "েঝ": "ঝে", "েঞ": "ঙে",
+    "েট": "টে", "েঠ": "ঠে", "েড": "ডে", "েঢ": "ডে", "েণ": "ণে",
+    "েত": "তে", "েথ": "থে", "েদ": "ডে", "েধ": "ধে", "েন": "নে",
+    "েপ": "পে", "েফ": "ফে", "েব": "বে", "েভ": "ভে", "েম": "মে",
+    "েয": "যে", "ের": "রে", "েল": "লে", "েশ": "শে", "েষ": "ষে",
+    "েহ": "হে", "েড়": "ড়ে", "েঢ়": "ঢ়ে", "েয়": "য়ে",
+    "েড়": "ড়ে", "েঢ়": "ঢ়ে", 
+    "Ũা": "স্টা", "ĺু": "ব্দু", "মািঝ": "মাঝি", "êী": "ঙ্গী", "Ɔ": "হু", 
+    "েপৗ": "পৌ", "ওয়াডÎ": "ওয়ার্ড", "ļ": "ব্ব", "বািড়": "বাড়ি", " ের": "রে", "õ": "জ্জ", "েপৗ": "পৌ",
+    "Ĵ": "প্র", " হোিল্ডং": "হোল্ডিং", "Ĩ": "ন্ন", "ă": "ড্র", "েস": "সে", "×": "ক্ত", "Ĝ": "দ্ধ",
+    "Ľ": "ব্র", "Ð": "ৈ", "শমিক": "শ্রমিক", "Ž": "গু", "বািড়": "বাড়ি", " ৈছ": "ছৈ", "Ù": "ক্ষ", "Ş": "স্ট",
+    "বািড়": "বাড়ি", "েস": "সে", "েম": "মে", " েমৗ": "মৌ", "ছিি": "ছি", "Ĥ": "ন্দ", "কািĤ": "কান্দি",
+    "Œড": "ন্ড", "ń": "ম্ব", "শেÎ": "র্শে", "আমনো": "আমেনা", "নাজন্মা": "নাজমা", "দÎা": "র্দা", "দ্দিী": "দ্দী",
+    "লতফিা": "লতিফা", "ছিি": "ছি", "অįাį": "অন্যান্য", " েমৗঃ": "মৌ",
+    "নাম:": "<br><span class='label-text'>নাম:</span>",
+    "ভোটার নং:": "<br><span class='label-text'>ভোটার নং:</span>",
+    "পিতা:": "<br><span class='label-text'>পিতা:</span>",
+    "মাতা:": "<br><span class='label-text'>মাতা:</span>",
+    "পেশা:": "<br><span class='label-text'>পেশা:</span>",
+    "জন্ম তারিখ:": "<br><span class='label-text'>জন্ম তারিখ:</span>",
+    "ঠিকানা:": "<br><span class='label-text'>ঠিকানা:</span>",
+};
+
+let records = [];
+
+const areaData = {
+    "char_fasson": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "abdullapur": ["আবুবকরপুর ১নং ওয়ার্ড", "আবুবকরপুর ২নং ওয়ার্ড", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)ড", "আবুবকরপুর (৮নং ওয়ার্ড অংশ)", "আবুবকরপুর (৯নং ওয়ার্ড অংশ)ড", "উত্তর শিবা (শিবার চর) (৯নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (১নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (২নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৩নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৪নং ওয়ার্ড অংশ)",],
+    "abubakarpur": ["আবুবকরপুর (৫নং ওয়ার্ড অংশ)", "আবুবকরপুর (৬নং ওয়ার্ড অংশ)", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "ahmadpur": ["ওয়ার্ড ০১ (আহম্মদপুর পূর্ব)", "ওয়ার্ড ০২ (আহম্মদপুর পশ্চিম)", "ওয়ার্ড ০৩ (আহম্মদপুর উত্তর)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aslampur": ["ওয়ার্ড ০১ (আসলামপুর পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aminabad": ["ওয়ার্ড ০১ (আমিনাবাদ উত্তর)", "ওয়ার্ড ০২ (আমিনাবাদ দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "osman_ganj": ["ওয়ার্ড ০১ (ওসমানগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "eveshopur": ["ওয়ার্ড ০১ (এওয়াজপুর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jahanpur": ["ওয়ার্ড ০১ (জাহানপুর বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jinna_gar": ["ওয়ার্ড ০১ (জিন্নগড় পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "dhal_char": ["ওয়ার্ড ০১ (ঢালচর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nazrul_nagar": ["উত্তর চর কলমী (১নং ওয়ার্ড অংশ)", "উত্তর চর কলমী (১নং ওয়ার্ড অংশ) (উত্তর পশ্চিম)", "উত্তর চর কলমী (২ নং ওয়ার্ড অংশ)", "চর কলমী", "চর নলুয়া", "চর নুরুদ্দিন (আর কলমী)", "চর হরিষ", "মাঝের চর (৩নং ওয়ার্ড অংশ)", "মাঝের চর (৪নং ওয়ার্ড অংশ)", "মাঝের চর (৫নং ওয়ার্ড অংশ)"],
+    "nilkamal": ["ওয়ার্ড ০১ (নীলকমল দক্ষিণ)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nurabad": ["ওয়ার্ড ০১ (নূরাবাদ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "mujib_nagar": ["ওয়ার্ড ০১ (মুজিবনগর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "madras": ["ওয়ার্ড ০১ (মাদ্রাজ বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "rasulpur": ["ওয়ার্ড ০১ (রাসুলপুর সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazariganj": ["ওয়ার্ড ০১ (হাজারীগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "monpura": ["ওয়ার্ড ০১ (মনপুরা উত্তর)", "ওয়ার্ড ০২ (মনপুরা দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazirhat": ["ওয়ার্ড ০১ (হাজীরহাট সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_north": ["ওয়ার্ড ০১ (উত্তর সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_south": ["ওয়ার্ড ০১ (দক্ষিণ সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"]
+};
+
+function fixBangla(t) {
+    for (const k in fixMap) t = t.replaceAll(k, fixMap[k]);
+    return t.replace(/[ ]{2,}/g, " ").trim();
+}
+
+async function loadPDF(path) {
+    records = [];
+    const s = document.getElementById("status");
+    const bar = document.getElementById("bar");
+    s.textContent = "Loading..."; 
+    bar.style.width = "10%";
+
+    try {
+        const loadingTask = pdfjsLib.getDocument(path);
+        const pdf = await loadingTask.promise;
+        let raw = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const p = await pdf.getPage(i);
+            const c = await p.getTextContent();
+            raw += c.items.map(x => x.str).join(" ") + " ";
+            bar.style.width = (i / pdf.numPages * 100) + "%";
+        }
+        const splitPattern = /\s+(?=[\d০-৯]+\.)/g;
+        records = raw.split(splitPattern).map(r => fixBangla(r)).filter(r => r.length > 20);
+        s.textContent = "DATABASE READY: " + toBn(String(records.length)) + " RECORDS";
+    } catch (e) {
+        s.textContent = "FILE NOT FOUND";
+        console.error(e);
+    }
+}
+
+function populateWards() {
+    const union = document.getElementById("unionSelect").value;
+    const wardSelect = document.getElementById("wardSelect");
+    wardSelect.innerHTML = '<option value="">এলাকা সিলেক্ট করুন</option>';
+    
+    if (union && areaData[union]) {
+        areaData[union].forEach((wardName, index) => {
+            const option = document.createElement("option");
+            option.value = index + 1;
+            option.textContent = wardName;
+            wardSelect.appendChild(option);
+        });
+        if(union === "char_fasson") wardSelect.value = "8";
+        else wardSelect.selectedIndex = 1;
+    }
+}
+
+function search() {
+    const q = document.getElementById("searchInput").value.trim();
+    const out = document.getElementById("results");
+    const cnt = document.getElementById("count");
+    const btn = document.getElementById("downloadBtn");
+    
+    out.innerHTML = ""; 
+    cnt.textContent = "";
+    btn.style.display = "none";
+
+    if (!q || !records.length) return;
+
+    const qBn = toBn(q);
+    const qEn = toEn(q);
+    let foundCount = 0;
+
+    records.forEach(r => {
+        if (r.includes(qBn) || r.includes(qEn)) {
+            let finalRecord = r;
+            const stopPoints = ["চর ফ্যাশন, ভোলা।", "মনপুরা, ভোলা।", "চর ফ্যাশন,"];
+            
+            for (let point of stopPoints) {
+                if (finalRecord.includes(point)) {
+                    finalRecord = finalRecord.substring(0, finalRecord.indexOf(point) + point.length);
+                    break;
+                }
+            }
+
+            let parts = finalRecord.split('<br>');
+            let firstLine = parts[0];
+            let restOfData = parts.slice(1).join('<br>');
+
+            const highlighted = restOfData.replaceAll(qBn, `<span class="highlight">${qBn}</span>`);
+            
+            out.innerHTML += `
+                <div class="result-card">
+                    <span class="record-header">${firstLine}</span>
+                    <div class="data-content">${highlighted}</div>
+                </div>`;
+            foundCount++;
+        }
+    });
+
+    if (foundCount > 0) {
+        cnt.textContent = `মোট ${toBn(String(foundCount))} টি তথ্য পাওয়া গেছে`;
+        btn.style.display = "block";
+    } else {
+        cnt.textContent = "কোনো তথ্য খুঁজে পাওয়া যায়নি";
+    }
+}
+
+function updateAndLoad() {
+    const union = document.getElementById("unionSelect").value;
+    const ward = document.getElementById("wardSelect").value;
+    const gender = document.getElementById("genderSelect").value;
+    
+    if(union && ward) {
+        loadPDF(`pdfs/${union}_${ward}n_${gender}.pdf`);
+    }
+}
+
+document.getElementById("downloadBtn").onclick = () => {
+    const results = document.querySelectorAll(".result-card");
+    let content = "Cyber-Scan Pro Results\n\n";
+    results.forEach((card, i) => { content += `[${i+1}] ${card.innerText.replace(/\n/g, ' ')}\n\n`; });
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Search_Results.txt`;
+    link.click();
+};
+
+document.getElementById("searchInput").oninput = e => {
+    const cursor = e.target.selectionStart;
+    e.target.value = toBn(e.target.value);
+    e.target.setSelectionRange(cursor, cursor);
+};
+
+document.getElementById("searchBtn").onclick = () => search();
+document.getElementById("searchInput").onkeydown = e => { if (e.key === "Enter") search(); };
+
+document.getElementById("unionSelect").onchange = () => {
+    populateWards();
+    updateAndLoad();
+};
+document.getElementById("wardSelect").onchange = () => updateAndLoad();
+document.getElementById("genderSelect").onchange = () => updateAndLoad();
+
+window.onload = () => {
+    populateWards();
+    updateAndLoad();
+};
+</script>
+</body>
+</html>
