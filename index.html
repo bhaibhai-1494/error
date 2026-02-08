@@ -8,152 +8,240 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 
     <style>
-        @import url('https://fonts.cdnfonts.com/css/solaimanlipi');
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/solaimanlipi');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --accent: #0f172a;
-            --bg-light: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #059669;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1e40af;
+    --accent: #0ea5e9;
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border: #e5e7eb;
+    --success: #16a34a;
+}
 
-        body {
-            background: var(--bg-light);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
-            color: var(--text-main);
-            font-family: 'Inter', 'SolaimanLipi', sans-serif;
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-        }
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', 'SolaimanLipi', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
 
-        .container { max-width: 800px; width: 92%; margin-top: 40px; padding-bottom: 60px; }
+.container {
+    max-width: 900px;
+    width: 92%;
+    margin-top: 40px;
+    padding-bottom: 60px;
+}
 
-        header { text-align: center; margin-bottom: 30px; }
-        header h1 { 
-            font-size: 2rem; 
-            font-weight: 800;
-            color: var(--accent);
-            letter-spacing: -0.025em;
-            margin: 0;
-            text-transform: uppercase;
-        }
-        header p { color: var(--text-muted); font-size: 0.95rem; margin-top: 8px; font-weight: 500; }
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        .search-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 24px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
-        }
+header h1 {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin: 0;
+}
 
-        .status { 
-            font-size: 0.7rem; color: var(--primary); 
-            text-transform: uppercase; letter-spacing: 1.5px; 
-            margin-bottom: 10px; font-weight: 700; text-align: center;
-        }
+header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 6px;
+}
 
-        .progress { height: 6px; background: #f1f5f9; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
-        .progress span { display: block; height: 100%; width: 0%; background: var(--primary); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.search-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+}
 
-        .selector-group {
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px; margin-bottom: 12px;
-        }
+.status {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-align: center;
+}
 
-        @media (max-width: 600px) {
-            .selector-group { grid-template-columns: 1fr; }
-        }
+.progress {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
 
-        select, input {
-            width: 100%; background: #ffffff;
-            border: 1px solid var(--border); border-radius: 12px;
-            color: var(--text-main); font-size: 0.9rem; padding: 12px 16px;
-            outline: none; font-family: inherit;
-            box-sizing: border-box; transition: all 0.2s;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        
-        select:focus, input:focus {
-            border-color: var(--primary);
-            ring: 2px solid var(--primary);
-        }
+.progress span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.4s ease;
+}
 
-        #searchBtn {
-            width: 100%; padding: 14px; background: var(--primary);
-            color: white; border: none; border-radius: 12px;
-            font-weight: 600; cursor: pointer; margin-top: 8px;
-            font-size: 1rem; transition: all 0.3s;
-            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.3);
-        }
-        #searchBtn:hover { 
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.4);
-        }
+.selector-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
 
-        #downloadBtn {
-            width: 100%; padding: 12px; background: #ecfdf5;
-            color: var(--success); border: 1px solid #a7f3d0; border-radius: 12px;
-            font-weight: 600; cursor: pointer; display: none; margin-top: 12px; font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        #downloadBtn:hover { background: #d1fae5; }
+@media (max-width: 600px) {
+    .selector-group {
+        grid-template-columns: 1fr;
+    }
+}
 
-        .result-card {
-            background: var(--card-bg); margin-top: 16px; padding: 24px;
-            border-radius: 20px; border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
-        }
-        .result-card:hover { transform: scale(1.01); }
+select,
+input {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
 
-        .record-header {
-            display: inline-block;
-            background: #eff6ff;
-            padding: 6px 16px;
-            border-radius: 100px;
-            margin-bottom: 16px;
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 700;
-            border: 1px solid #dbeafe;
-        }
+select:focus,
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
 
-        .data-content { font-size: 1rem; color: var(--text-main); line-height: 1.8; }
-        .label-text { color: var(--text-muted); font-weight: 600; margin-right: 5px; font-size: 0.9rem; }
-        .highlight { background-color: #fef08a; padding: 0 2px; border-radius: 4px; font-weight: bold; }
+#searchBtn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 0.95rem;
+    transition: background 0.3s;
+}
 
-        .count { text-align: center; margin: 30px 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+#searchBtn:hover {
+    background: var(--primary-hover);
+}
 
-        footer {
-            margin-top: auto; width: 100%; padding: 40px 0;
-            border-top: 1px solid var(--border); text-align: center;
-            background: #ffffff;
-        }
-        .footer-content h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
-        .footer-content p { color: var(--text-muted); font-size: 0.85rem; }
-        .contact-links a { color: var(--primary); text-decoration: none; margin: 0 12px; font-size: 0.9rem; font-weight: 600; }
-        .contact-links a:hover { text-decoration: underline; }
-    </style>
+#downloadBtn {
+    width: 100%;
+    padding: 10px;
+    background: #ffffff;
+    color: var(--success);
+    border: 1px solid var(--success);
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+.result-card {
+    background: var(--card-bg);
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.record-header {
+    display: block;
+    text-align: center;
+    background: #eff6ff;
+    padding: 6px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    color: var(--primary);
+    font-weight: bold;
+    border: 1px dashed #bfdbfe;
+}
+
+.data-content {
+    font-size: 1rem;
+    color: #1e293b;
+    line-height: 1.7;
+}
+
+.label-text {
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.highlight {
+    color: #ca8a04;
+    font-weight: bold;
+    background: #fef9c3;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+.count {
+    text-align: center;
+    margin: 30px 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+footer {
+    margin-top: auto;
+    width: 100%;
+    padding: 30px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    background: #ffffff;
+}
+
+.footer-content h3 {
+    color: var(--text-main);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.footer-content p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.contact-links a {
+    color: var(--primary);
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.85rem;
+}
+</style>
 </head>
+
 <body>
 <div class="container">
     <header>
         <h1>BHAI BHAI PHONE SHEFA MEDICAL CENTER</h1>
-        <p>ভোলা-৪ (চরফ্যাশন-মনপুরা) উন্নত ভোটার রেকর্ড অনুসন্ধান</p>
+        <p>ভোলা-৪ (চরফ্যাশন-মনপুরা) উন্নত ভোটার রেকর্ড অনুসন্ধান সি</p>
     </header>
 
     <div class="search-box">
@@ -170,10 +258,14 @@
                     <option value="ahmadpur">আহম্মদপুর</option>
                     <option value="aminabad">আমিনাবাদ</option>
                     <option value="aslampur">আসলামপুর</option>
+                                        
+
+
+                    
                     <option value="osman_ganj">ওসমানগঞ্জ</option>
-                    <option value="eveshopur">এওয়াজপুর</option>
+                    <option value="eveshopur">এওয়াজপুর</option>
                     <option value="jahanpur">জাহানপুর</option>
-                    <option value="jinna_gar">জিন্নগড়</option>
+                    <option value="jinna_gar">জিন্নগড়</option>
                     <option value="dhal_char">ঢালচর</option>
                     <option value="nazrul_nagar">নজরুলনগর</option>
                     <option value="nilkamal">নীলকমল</option>
@@ -184,10 +276,10 @@
                     <option value="hazariganj">হাজারীগঞ্জ</option>
                 </optgroup>
                 <optgroup label="মনপুরা">
-                    <option value="monpura">মনপুরা ইউনিয়ন</option>
+                    <option value="monpura">মনপুরা ইউনিয়ন</option>
                     <option value="hazirhat">হাজীরহাট</option>
-                    <option value="sakuchia_north">উত্তর সাকুচিয়া</option>
-                    <option value="sakuchia_south">দক্ষিণ সাকুচিয়া</option>
+                    <option value="sakuchia_north">উত্তর সাকুচিয়া</option>
+                    <option value="sakuchia_south">দক্ষিণ সাকুচিয়া</option>
                 </optgroup>
             </select>
 
@@ -198,7 +290,7 @@
             <select id="genderSelect">
                 <option value="male">পুরুষ</option>
                 <option value="female">মহিলা</option>
-                <option value="hijra">হিজড়া</option>
+                <option value="hijra">হিজড়া</option>
             </select>
         </div>
         
@@ -224,7 +316,6 @@
 </footer>
 
 <script>
-// I have kept your exact script logic below
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
@@ -271,7 +362,6 @@ const fixMap = {
     "বািড়": "বাড়ি", "েস": "সে", "েম": "মে", " েমৗ": "মৌ", "ছিি": "ছি", "Ĥ": "ন্দ", "কািĤ": "কান্দি",
     "ড": "ন্ড", "ń": "ম্ব", "শেÎ": "র্শে", "আমনো": "আমেনা", "নাজন্মা": "নাজমা", "দÎা": "র্দা", "দ্দিী": "দ্দী",
     "লতফিা": "লতিফা", "ছিি": "ছি", "অįাį": "অন্যান্য", " েমৗঃ": "মৌ",
-    
     "নাম:": "<br><span class='label-text'>নাম:</span>",
     "ভোটার নং:": "<br><span class='label-text'>ভোটার নং:</span>",
     "পিতা:": "<br><span class='label-text'>পিতা:</span>",
@@ -284,28 +374,28 @@ const fixMap = {
 let records = [];
 
 const areaData = {
-    "char_fasson": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "ahmadpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "aslampur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "aminabad": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "abubakarpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "abdullapur": ["আবুবকরপুর ১নং", "আবুবকরপুর ২নং", "হাসানগঞ্জ ৩নং", "হাসানগঞ্জ ৪নং"],
-    "osman_ganj": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "eveshopur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "jahanpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "jinna_gar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "dhal_char": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nazrul_nagar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nilkamal": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "nurabad": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "mujib_nagar": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "madras": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "rasulpur": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "hazariganj": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "monpura": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "hazirhat": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "sakuchia_north": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
-    "sakuchia_south": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"]
+    "char_fasson": ["ওয়ার্ড ০১", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "ahmadpur": ["ওয়ার্ড ০১ (আহম্মদপুর পূর্ব)", "ওয়ার্ড ০২ (আহম্মদপুর পশ্চিম)", "ওয়ার্ড ০৩ (আহম্মদপুর উত্তর)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aslampur": ["ওয়ার্ড ০১ (আসলামপুর পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "aminabad": ["ওয়ার্ড ০১ (আমিনাবাদ উত্তর)", "ওয়ার্ড ০২ (আমিনাবাদ দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "abubakarpur": ["আবুবকরপুর (৫নং ওয়ার্ড অংশ)", "আবুবকরপুর (৬নং ওয়ার্ড অংশ)", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "abdullapur": ["আবুবকরপুর ১নং ওয়ার্ড", "আবুবকরপুর ২নং ওয়ার্ড", "আবুবকরপুর (৭নং ওয়ার্ড অংশ)ড", "আবুবকরপুর (৮নং ওয়ার্ড অংশ)", "আবুবকরপুর (৯নং ওয়ার্ড অংশ)ড", "উত্তর শিবা (শিবার চর) (৯নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (১নং ওয়ার্ড অংশ)", "ওসমানগঞ্জ (২নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৩নং ওয়ার্ড অংশ)", "হাসানগঞ্জ (৪নং ওয়ার্ড অংশ)",],
+    "osman_ganj": ["ওয়ার্ড ০১ (ওসমানগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "eveshopur": ["ওয়ার্ড ০১ (এওয়াজপুর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jahanpur": ["ওয়ার্ড ০১ (জাহানপুর বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "jinna_gar": ["ওয়ার্ড ০১ (জিন্নগড় পূর্ব)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "dhal_char": ["ওয়ার্ড ০১ (ঢালচর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nazrul_nagar": ["ওয়ার্ড ০১ (নজরুলনগর সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nilkamal": ["ওয়ার্ড ০১ (নীলকমল দক্ষিণ)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "nurabad": ["ওয়ার্ড ০১ (নূরাবাদ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "mujib_nagar": ["ওয়ার্ড ০১ (মুজিবনগর উত্তর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "madras": ["ওয়ার্ড ০১ (মাদ্রাজ বাজার)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "rasulpur": ["ওয়ার্ড ০১ (রাসুলপুর সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazariganj": ["ওয়ার্ড ০১ (হাজারীগঞ্জ সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "monpura": ["ওয়ার্ড ০১ (মনপুরা উত্তর)", "ওয়ার্ড ০২ (মনপুরা দক্ষিণ)", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "hazirhat": ["ওয়ার্ড ০১ (হাজীরহাট সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_north": ["ওয়ার্ড ০১ (উত্তর সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"],
+    "sakuchia_south": ["ওয়ার্ড ০১ (দক্ষিণ সাকুচিয়া সদর)", "ওয়ার্ড ০২", "ওয়ার্ড ০৩", "ওয়ার্ড ০৪", "ওয়ার্ড ০৫", "ওয়ার্ড ০৬", "ওয়ার্ড ০৭", "ওয়ার্ড ০৮", "ওয়ার্ড ০৯"]
 };
 
 function fixBangla(t) {
@@ -451,3 +541,4 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
